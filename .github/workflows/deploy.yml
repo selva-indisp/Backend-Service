@@ -32,4 +32,4 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST 'fuser -k 8080/tcp'
           scp -o StrictHostKeyChecking=no build/libs/io.indisp.backendservice-all.jar $EC2_USER@$EC2_HOST:workspace
-          ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST 'java -jar ~/workspace/io.indisp.backendservice-all.jar'
+          ssh -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST 'java -jar ~/workspace/io.indisp.backendservice-all.jar > output.log 2>&1'
