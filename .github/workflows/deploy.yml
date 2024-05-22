@@ -1,6 +1,9 @@
 name: Build and Deploy JAR to EC2
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
