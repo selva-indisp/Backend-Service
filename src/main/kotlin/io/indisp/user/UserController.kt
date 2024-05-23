@@ -1,6 +1,7 @@
 package io.indisp.user
 
 import kotlinx.coroutines.delay
+import kotlinx.serialization.Serializable
 
 class UserController {
 
@@ -221,24 +222,34 @@ class UserController {
         }
     }
 
-    suspend fun getUsers(pageNum: Int, query: String?): List<User> {
-        if (query.isNullOrEmpty().not())
+    suspend fun getUsers(pageNum: Int, query: String?): UsersResponse {
+        if (query.isNullOrEmpty().not()) {
             return search(query!!.lowercase())
+        }
 
         delay(3000)
         val start = (pageNum - 1) * 5
         val end = start + 5
         val result = mutableListOf<User>()
-        if (start > userList.lastIndex)
-            return result
         for (i in start until end)
             if (i < userList.size)
                 result.add(userList[i])
-        return result
+        return UsersResponse(
+            page = pageNum,
+            total = 3,
+            data = result
+        )
     }
 
-    private suspend fun search(query: String): List<User> {
+    private suspend fun search(query: String): UsersResponse {
         delay(2000)
-        return userList.filter { it.name.lowercase().contains(query) || it.country.lowercase().contains(query) }
+        return UsersResponse(
+            page = 1,
+            total = 1,
+            data = userList.filter { it.name.lowercase().contains(query) || it.country.lowercase().contains(query) }
+        )
     }
 }
+
+@Serializable
+data class UsersResponse(val page: Int, val total: Int, val data: List<User>)
