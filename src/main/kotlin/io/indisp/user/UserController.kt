@@ -1,14 +1,11 @@
 package io.indisp.user
 
 import kotlinx.coroutines.delay
-import java.util.UUID
-import kotlin.random.Random
 
 class UserController {
 
-    suspend fun getUsers(): List<User> {
-        delay(3000)
-        return buildList {
+    private companion object {
+        val userList = buildList {
             add(
                 User(
                     id = "1",
@@ -27,7 +24,7 @@ class UserController {
                 User(
                     id = "2",
                     name = "Bhuvana",
-                    country = "India",
+                    country = "Australia",
                     accounts = listOf(
                         Account(
                             id = "1",
@@ -80,5 +77,18 @@ class UserController {
                 )
             )
         }
+    }
+
+    suspend fun getUsers(query: String?): List<User> {
+        if (query.isNullOrEmpty().not())
+            return search(query!!.lowercase())
+
+        delay(3000)
+        return userList
+    }
+
+    private suspend fun search(query: String): List<User> {
+        delay(2000)
+        return userList.filter { it.name.lowercase().contains(query) || it.country.lowercase().contains(query) }
     }
 }

@@ -46,8 +46,9 @@ fun Application.configureRouting() {
         }
 
         get("/users") {
+            val searchQuery = call.request.queryParameters["search"]
             runBlocking {
-                val usersList = userController.getUsers()
+                val usersList = userController.getUsers(searchQuery)
                 call.respond(HttpStatusCode.OK, usersList)
             }
         }
