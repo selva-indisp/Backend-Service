@@ -26,6 +26,9 @@ fun Application.configureCors() {
         methods.add(HttpMethod.Put)
         methods.add(HttpMethod.Delete)
         methods.add(HttpMethod.Patch)
+        methods.add(HttpMethod.Get)
+        methods.add(HttpMethod.Post)
+        methods.add(HttpMethod.Head)
         headers.add(HttpHeaders.Authorization)
         headers.add(HttpHeaders.ContentType)
         allowCredentials = true
